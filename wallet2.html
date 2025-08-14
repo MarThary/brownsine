@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Page - Codewave</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    
+    /* Navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #000;
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    
+    .nav-links a:hover {
+      color: #007bff;
+    }
+    
+    /* Main Content */
+    .main-content {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+    
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: #f8f9fa;
+      padding: 40px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    
+    .footer-text {
+      margin-bottom: 20px;
+    }
+    
+    .rq-section {
+      background-color: #007bff;
+      color: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin: 40px auto;
+      max-width: 800px;
+    }
+    
+    .rq-section h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    
+    .rq-button {
+      display: inline-block;
+      background-color: white;
+      color: #007bff;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    
+    /* Chat Button */
+    #heygen-chat-button {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 10000;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="logo">codewave</a>
+    <div class="nav-links">
+      <a href="#">I'M LOOKING FOR... SERVICES</a>
+      <a href="#">XPRESS VALUE</a>
+      <a href="#">RELEVANCE QUOTIENT™</a>
+      <a href="#">INDUSTRIES</a>
+      <a href="#">WORKS</a>
+      <a href="#">INSIGHTS</a>
+      <a href="#">CULTURE</a>
+      <a href="#">CONTACT</a>
+    </div>
+  </nav>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>Test Page</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <p class="footer-text">© 2013 - 2024 Codewave Technologies.</p>
+    
+    <div class="rq-section">
+      <h2>Test Your Relevance Quotient™ [RQ] for 2025 & Tomorrow.</h2>
+      <a href="https://relevance-quotient.codewave.com" class="rq-button">TEST YOUR RELEVANCE QUOTIENT™ [RQ]</a>
+    </div>
+  </footer>
+
+ 
+
+  <!-- Your injected HeyGen streaming embed script -->
+  <script>
+    !function(window){
+      const host = "https://labs.heygen.com",
+            url = host + "/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJKdW5lX0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzc0NDQ3YTI3ODU5YTQ1NmM5%0D%0ANTVlMDFmMjFlZjE4MjE2XzQ1NjIwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImMxZjRkZTA2ZDA0ODQ3YTBiYmE0ZmVi%0D%0AZTk3MzUwZjU1IiwidXNlcm5hbWUiOiI5NDE0OGFkYjZiNmI0NjUwOGM0OGNlMzYzZjYyNGM4YiJ9&inIFrame=1",
+            clientWidth = document.body.clientWidth,
+            wrapDiv = document.createElement("div");
+      wrapDiv.id = "heygen-streaming-embed";
+      const container = document.createElement("div");
+      container.id = "heygen-streaming-container";
+      const stylesheet = document.createElement("style");
+      stylesheet.innerHTML = `
+        #heygen-streaming-embed {
+          z-index: 9999;
+          position: fixed;
+          left: 40px;
+          bottom: 40px;
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          border: 2px solid #fff;
+          box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
+          transition: all linear 0.1s;
+          overflow: hidden;
+          opacity: 0;
+          visibility: hidden;
+        }
+        #heygen-streaming-embed.show {
+          opacity: 1;
+          visibility: visible;
+        }
+        #heygen-streaming-embed.expand {
+          ${clientWidth < 540 ? "height: 266px; width: 96%; left: 50%; transform: translateX(-50%);" : "height: 366px; width: calc(366px * 16 / 9);"}
+          border: 0;
+          border-radius: 8px;
+        }
+        #heygen-streaming-container {
+          width: 100%;
+          height: 100%;
+        }
+        #heygen-streaming-container iframe {
+          width: 100%;
+          height: 100%;
+          border: 0;
+        }
+      `;
+      const iframe = document.createElement("iframe");
+      iframe.allowFullscreen = false;
+      iframe.title = "Streaming Embed";
+      iframe.role = "dialog";
+      iframe.allow = "microphone";
+      iframe.src = url;
+      let visible = false, initial = false;
+      window.addEventListener("message", (e) => {
+        if (e.origin === host && e.data && e.data.type === "streaming-embed") {
+          if (e.data.action === "init") {
+            initial = true;
+            wrapDiv.classList.toggle("show", initial);
+          } else if (e.data.action === "show") {
+            visible = true;
+            wrapDiv.classList.toggle("expand", visible);
+          } else if (e.data.action === "hide") {
+            visible = false;
+            wrapDiv.classList.toggle("expand", visible);
+          }
+        }
+      });
+      container.appendChild(iframe);
+      wrapDiv.appendChild(stylesheet);
+      wrapDiv.appendChild(container);
+      document.body.appendChild(wrapDiv);
+
+      // Show the streaming embed when button is clicked
+      const chatButton = document.getElementById("heygen-chat-button");
+      if (chatButton) {
+        chatButton.addEventListener("click", () => {
+          // Trigger initial display
+          if (!initial) {
+            wrapDiv.classList.add("show");
+            initial = true;
+          }
+          // Then expand to show full content
+          setTimeout(() => {
+            visible = true;
+            wrapDiv.classList.add("expand");
+          }, 100);
+        });
+      }
+    }(globalThis);
+  </script>
+</body>
+</html>
