@@ -125,7 +125,7 @@
   <script>
   !function(window){
     const host="https://labs.heygen.com",
-    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJKdW5lX0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzc0NDQ3YTI3ODU5YTQ1NmM5%0D%0ANTVlMDFmMjFlZjE4MjE2XzQ1NjIwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6ImYxMDkzNTBlYjkzOTQ3M2RhYjA2MDk1%0D%0AMzVlZTA4MDU0IiwidXNlcm5hbWUiOiI3ZGFlZWJhNDhmZWI0NTM5YmE0Yzk0ZGExYTQ2YTYwOSJ9&inIFrame=1",
+    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJKdW5lX0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzc0NDQ3YTI3ODU5YTQ1NmM5%0D%0ANTVlMDFmMjFlZjE4MjE2XzQ1NjIwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjQ4ZDNmYTc2MWUyNDQ5Yzk4YmM2NmE1%0D%0AYWU3YjQ4Y2IxIiwidXNlcm5hbWUiOiI3ZGFlZWJhNDhmZWI0NTM5YmE0Yzk0ZGExYTQ2YTYwOSJ9&inIFrame=1",
     clientWidth=document.body.clientWidth,
     wrapDiv=document.createElement("div");
     wrapDiv.id="heygen-streaming-embed";
@@ -133,39 +133,39 @@
     container.id="heygen-streaming-container";
     const stylesheet=document.createElement("style");
     stylesheet.innerHTML=`
-      #heygen-streaming-embed {
-        z-index: 9999;
-        position: fixed;
-        left: 40px;
-        bottom: 40px;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
-        transition: all linear 0.1s;
-        overflow: hidden;
-        opacity: 0;
-        visibility: hidden;
-      }
-      #heygen-streaming-embed.show {
-        opacity: 1;
-        visibility: visible;
-      }
-      #heygen-streaming-embed.expand {
-        ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
-        border: 0;
-        border-radius: 8px;
-      }
-      #heygen-streaming-container {
-        width: 100%;
-        height: 100%;
-      }
-      #heygen-streaming-container iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-      }
+    #heygen-streaming-embed {
+      z-index: 9999;
+      position: fixed;
+      left: 40px;
+      bottom: 40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
+      transition: all linear 0.1s;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+    }
+    #heygen-streaming-embed.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    #heygen-streaming-embed.expand {
+      ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
+      border: 0;
+      border-radius: 8px;
+    }
+    #heygen-streaming-container {
+      width: 100%;
+      height: 100%;
+    }
+    #heygen-streaming-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
     `;
     const iframe=document.createElement("iframe");
     iframe.allowFullscreen=!1;
@@ -189,3 +189,4 @@
   </script>
 </body>
 </html>
+
