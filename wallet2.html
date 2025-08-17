@@ -1,192 +1,1108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test Page - Codewave</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wallet • المنصّة الرقمية</title>
+  <meta name="description" content="منصّة رقمية حديثة لتشغيل العلامات والخدمات عبر قنوات متعددة." />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #333;
+    :root { --brand:#0b7; --ink:#0B1B2B; --muted:#6B7A90; --bg:#F6F8FB; }
+    html,body{font-family:'Cairo',system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:var(--bg);}
+    .glass{backdrop-filter:saturate(160%) blur(8px); background:rgba(255,255,255,.65);}
+    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.75rem 1.1rem; border-radius:9999px; font-weight:700;}
+    .btn-primary{background:var(--brand); color:white;}
+    .btn-outline{border:1px solid rgba(0,0,0,.12);}
+    .chip{padding:.35rem .7rem;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.06);font-size:.85rem}
+    .logo-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--brand);display:inline-block;margin-inline:.25rem}
+    .section{padding-block:5rem}
+    .stat-num{font-size:2.2rem;font-weight:800;letter-spacing:.2px}
+    .card{background:#fff;border:1px solid rgba(0,0,0,.06); border-radius:1.25rem; box-shadow:0 10px 25px rgba(18,38,63,.06)}
+    .footer-link{color:#123; opacity:.8}
+    .footer-link:hover{opacity:1}
+  </style>
+  <!-- Chat Widget Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .chat-container {
+        width: 100%;
+        max-width: 600px;
+        height: 80vh;
+        display: none; /* Initially hidden */
+        flex-direction: column;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        background-color: #f9fafb;
+        overflow: hidden;
+        /* Positioned to be fixed and a bit higher */
+        position: fixed;
+        bottom: 6rem; /* Moved up from the button */
+        right: 2rem;
+        z-index: 1000;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        opacity: 0;
+        transform: scale(0.95);
+        transform-origin: bottom right;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      border-bottom: 1px solid #e5e5e5;
-      background: #fff;
-      position: sticky;
-      top: 0;
+    .chat-container.open {
+        display: flex;
+        opacity: 1;
+        transform: scale(1);
     }
-    header .logo {
-      font-weight: bold;
-      font-size: 20px;
+    /* Chat button styling */
+    .chat-button {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1001; /* Above the chat window */
+        width: 60px;
+        height: 60px;
+        background-color: var(--brand);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
     }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #000;
-      font-size: 14px;
-      font-weight: 600;
+    .chat-button:hover {
+        transform: scale(1.05);
     }
-    main {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 0 20px;
+    .chat-button svg {
+        width: 30px;
+        height: 30px;
+        transition: transform 0.3s ease-in-out;
     }
-    main h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
+    .chat-button.open {
+        background-color: #ef4444; /* Red color for 'X' button */
     }
-    main p {
-      line-height: 1.6;
-      margin-bottom: 20px;
+    .chat-button.open svg {
+        transform: rotate(180deg);
     }
-    footer {
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-      margin: 40px 0 20px;
+    .chat-header {
+        background-color: var(--brand);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+        border-radius: 1.5rem 1.5rem 0 0;
     }
-    .cta-section {
-      background: #f9f9f9;
-      padding: 40px 20px;
-      text-align: center;
+    .chat-body {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
     }
-    .cta-box {
-      display: inline-block;
-      background: #007bff;
-      color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
+    .message-bubble {
+        max-width: 80%;
+        border-radius: 1.25rem;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+        word-wrap: break-word;
     }
-    .cta-box h2 {
-      font-size: 20px;
-      margin-bottom: 15px;
+    /* Adjusted for RTL */
+    .user-message {
+        background-color: #bfdbfe;
+        align-self: flex-end;
+        margin-right: auto;
     }
-    .cta-box button {
-      background: #fff;
-      color: #007bff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
+    .bot-message {
+        background-color: #e5e7eb;
+        align-self: flex-start;
+        margin-left: auto;
+    }
+    .message-input-container {
+        display: flex;
+        background-color: #fff;
+        padding: 1rem;
+        border-top: 1px solid #e5e7eb;
+    }
+    .message-input {
+        flex-grow: 1;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 9999px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .message-input:focus {
+        border-color: var(--brand);
+    }
+    .send-button {
+        padding: 0.75rem 1.5rem;
+        background-color: var(--brand);
+        color: white;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .send-button:hover {
+        background-color: #0a6;
+    }
+    .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+    }
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #9ca3af;
+        border-radius: 50%;
+        margin: 0 2px;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    .typing-dot:nth-child(3) { animation-delay: 0s; }
+    @keyframes bounce {
+        0%, 80%, 100% { transform: translateY(-0); }
+        40% { transform: translateY(-8px); }
+    }
+    @media (max-width: 768px) {
+        .chat-container {
+            height: 100vh;
+            max-width: 100%;
+            border-radius: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+        }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">codewave</div>
-    <nav>
-      <a href="#">I'M LOOKING FOR... SERVICES</a>
-      <a href="#">XPRESS VALUE</a>
-      <a href="#">RELEVANCE QUOTIENT™</a>
-      <a href="#">INDUSTRIES</a>
-      <a href="#">WORKS</a>
-      <a href="#">INSIGHTS</a>
-      <a href="#">CULTURE</a>
-      <a href="#">CONTACT</a>
-    </nav>
+
+  <!-- Top Bar -->
+  <header class="sticky top-0 z-50">
+    <div class="glass border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-2">
+          <!-- Simple placeholder logo -->
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--brand)] text-white font-black">W</span>
+          <span class="text-xl font-extrabold">Wallet</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-[15px]">
+          <a href="#about" class="hover:text-[var(--brand)]">عن ولِت</a>
+          <a href="#verticals" class="hover:text-[var(--brand)]">القطاعات</a>
+          <a href="#partners" class="hover:text-[var(--brand)]">الشراكات</a>
+          <a href="#apps" class="hover:text-[var(--brand)]">تطبيقاتنا</a>
+          <a href="#download" class="btn btn-outline">تنزيل التطبيق</a>
+        </nav>
+        <div class="md:hidden">
+          <button aria-label="القائمة" class="btn btn-outline">القائمة</button>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <h1>Test Page</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
-      doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore 
-      veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-    </p>
-  </main>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute -top-24 -end-24 w-[420px] h-[420px] rounded-full bg-emerald-200/40 blur-3xl"></div>
+    <div class="absolute -bottom-24 -start-24 w-[320px] h-[320px] rounded-full bg-emerald-300/30 blur-3xl"></div>
 
-  <footer>
-    © 2013 - 2024 Codewave Technologies.
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <span class="chip">منصّة متعددة القنوات</span>
+            <span class="chip">تشغيل العلامات الرقمية</span>
+            <span class="chip">خدمات حسب الطلب</span>
+          </div>
+          <h1 class="text-4xl lg:text-5xl font-black leading-tight">
+            نبني ونشغّل منظومة <span class="text-[var(--brand)]">خدمات رقمية</span> ممتعة وسهلة للجميع
+          </h1>
+          <p class="mt-4 text-[var(--muted)] leading-8">
+            حلول تجارة وخدمات بنمط الحياة، تطبيقات جوّال، وسحابة تشغيل موحّدة لرحلة شراء وتوصيل سلسة في المملكة وخارجها.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#download" class="btn btn-primary">ابدأ الآن</a>
+            <a href="#about" class="btn btn-outline">تعرّف أكثر</a>
+          </div>
+          <div class="mt-6 flex items-center gap-6 text-sm text-[var(--muted)]">
+            <span><span class="logo-dot"></span> أداء موثوق</span>
+            <span><span class="logo-dot"></span> تجربة مستخدم حديثة</span>
+            <span><span class="logo-dot"></span> دعم على مدار الساعة</span>
+          </div>
+        </div>
+
+        <!-- Hero visual (placeholder) -->
+        <div class="relative">
+          <div class="card p-6 aspect-[4/3] flex items-center justify-center">
+            <svg viewBox="0 0 600 400" class="w-full h-full">
+              <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#34d399"/>
+                  <stop offset="100%" stop-color="#10b981"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="600" height="400" fill="#F1F5F9"/>
+              <rect x="40" y="40" width="520" height="320" rx="18" fill="url(#g)" opacity=".18"/>
+              <g opacity=".9">
+                <circle cx="150" cy="170" r="26" fill="#fff"/>
+                <rect x="195" y="150" width="220" height="18" rx="6" fill="#fff"/>
+                <rect x="195" y="178" width="170" height="12" rx="6" fill="#fff" opacity=".8"/>
+              </g>
+              <g transform="translate(40,260)" opacity=".9">
+                <rect x="0" y="0" width="120" height="56" rx="12" fill="#fff"/>
+                <rect x="140" y="0" width="120" height="56" rx="12" fill="#fff"/>
+                <rect x="280" y="0" width="120" height="56" rx="12" fill="#fff"/>
+              </g>
+            </svg>
+          </div>
+          <div class="absolute -bottom-6 -end-6 card px-4 py-3 shadow-xl">
+            <p class="text-sm">لوحة موحّدة لإدارة الطلبات والمدفوعات</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="card p-6 text-center">
+          <div class="stat-num">+1B</div>
+          <div class="text-[var(--muted)]">قيمة تقديرية</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="stat-num">+5M</div>
+          <div class="text-[var(--muted)]">مستخدم</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="stat-num">+10K</div>
+          <div class="text-[var(--muted)]">موظف وشريك</div>
+        </div>
+        <div class="card p-6 text-center">
+          <div class="stat-num">+100</div>
+          <div class="text-[var(--muted)]">علامة تطبيق</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <h2 class="text-3xl font-black mb-4">عن ولِت</h2>
+          <p class="text-[var(--muted)] leading-8">
+            نعمل بروح ريادية سعودية على بناء وتشغيل منصّات تجارة وخدمات بنمط حياة عبر قنوات متعددة،
+            باستخدام التقنيات السحابية وتطبيقات الأجهزة الذكية وحلول الاستشعار الذكي لرفع الكفاءة
+            وتحسين تجربة العميل.
+          </p>
+          <ul class="mt-4 space-y-2 text-[var(--muted)]">
+            <li>• تطبيقات جوال وخدمات سحابية للنمو.</li>
+            <li>• تقليل التكاليف التشغيلية عبر التحليلات والاستشعار.</li>
+            <li>• رفع الإنتاجية وتجربة العميل عبر رحلة موحّدة.</li>
+          </ul>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg mb-3">مكوّنات المنظومة</h3>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="chip">بوابة طلبات</div>
+            <div class="chip">مدفوعات</div>
+            <div class="chip">لوجستيات وتوصيل</div>
+            <div class="chip">مخزون ومورّدين</div>
+            <div class="chip">تجربة العملاء</div>
+            <div class="chip">لوحة تحكم</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verticals -->
+  <section id="verticals" class="section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-black mb-8">قطاعات التجربة</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Reusable card -->
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">الأطعمة والمشروبات</h3>
+          <p class="text-[var(--muted)] mt-2">إدارة الطلبات، الولاء، وقنوات التوصيل.</p>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">الخدمات عند الطلب</h3>
+          <p class="text-[var(--muted)] mt-2">حجوزات، مزامنة فورية، وجدولة ذكية.</p>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">الأزياء والأحذية</h3>
+          <p class="text-[var(--muted)] mt-2">كتالوج، مقاسات، وسياسات استبدال.</p>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">السفر والإقامة</h3>
+          <p class="text-[var(--muted)] mt-2">حجوزات، بوابة دفع، وتكامل مع القنوات.</p>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">الترفيه والألعاب</h3>
+          <p class="text-[var(--muted)] mt-2">اشتراكات، محافظ رقمية، ومكافآت.</p>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-bold text-lg">العقارات والإسكان</h3>
+          <p class="text-[var(--muted)] mt-2">إدارة عقود ودفع دوري وصيانة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section id="partners" class="section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-3xl font-black">شراكاتنا</h2>
+        <a href="#" class="text-sm font-semibold hover:text-[var(--brand)]">المزيد</a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <!-- Logo placeholders -->
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 1</span></div>
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 2</span></div>
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 3</span></div>
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 4</span></div>
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 5</span></div>
+        <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 6</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apps -->
+  <section id="apps" class="section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-3xl font-black">تطبيقاتنا</h2>
+        <a href="#" class="text-sm font-semibold hover:text-[var(--brand)]">المزيد</a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- App card -->
+        <article class="card p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold">Brand App 1</h3>
+            <span class="chip">iOS • Android</span>
+          </div>
+          <p class="text-[var(--muted)] mt-2">وصف مختصر عن التطبيق وما يقدمه للمستخدم.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="btn btn-outline text-sm" href="#">App Store</a>
+            <a class="btn btn-outline text-sm" href="#">Google Play</a>
+          </div>
+        </article>
+
+        <article class="card p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold">Brand App 2</h3>
+            <span class="chip">iOS • Android</span>
+          </div>
+          <p class="text-[var(--muted)] mt-2">وصف مختصر عن التطبيق وما يقدمه للمستخدم.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="btn btn-outline text-sm" href="#">App Store</a>
+            <a class="btn btn-outline text-sm" href="#">Google Play</a>
+          </div>
+        </article>
+
+        <article class="card p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold">Brand App 3</h3>
+            <span class="chip">iOS • Android</span>
+          </div>
+          <p class="text-[var(--muted)] mt-2">وصف مختصر عن التطبيق وما يقدمه للمستخدم.</p>
+          <div class="mt-4 flex gap-3">
+            <a class="btn btn-outline text-sm" href="#">App Store</a>
+            <a class="btn btn-outline text-sm" href="#">Google Play</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section id="download" class="section">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-black">حمّل تطبيق Wallet الآن</h2>
+      <p class="text-[var(--muted)] mt-3">انضم إلى ملايين المستخدمين واستفد من التجربة الموحّدة عبر جميع القنوات.</p>
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <a class="btn btn-primary" href="#" aria-label="تحميل من App Store">تحميل iOS</a>
+        <a class="btn btn-outline" href="#" aria-label="تحميل من Google Play">تحميل Android</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--brand)] text-white font-black">W</span>
+            <span class="font-extrabold text-lg">Wallet</span>
+          </div>
+          <p class="text-[var(--muted)]">نمتلك ونشغّل علامات رقمية عبر منظومة موحّدة.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3">الشركة</h4>
+          <ul class="space-y-2">
+            <li><a class="footer-link" href="#about">عنّا</a></li>
+            <li><a class="footer-link" href="#partners">الشراكات</a></li>
+            <li><a class="footer-link" href="#apps">التطبيقات</a></li>
+            <li><a class="footer-link" href="#">المدوّنة</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3">الدعم</h4>
+          <ul class="space-y-2">
+            <li><a class="footer-link" href="#">الأسئلة الشائعة</a></li>
+            <li><a class="footer-link" href="#">تواصل معنا</a></li>
+            <li><a class="footer-link" href="#">سياسة الخصوصية</a></li>
+            <li><a class="footer-link" href="#">الشروط والأحكام</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-3">تابعنا</h4>
+          <div class="flex gap-3">
+            <a class="footer-link" href="#" aria-label="Twitter">X</a>
+            <a class="footer-link" href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a class="footer-link" href="#" aria-label="Instagram">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t text-sm text-[var(--muted)] flex flex-wrap items-center justify-between">
+        <p>© <span id="year"></span> Wallet. جميع الحقوق محفوظة.</p>
+        <p>Powered & Run by Wallet</p>
+      </div>
+    </div>
   </footer>
 
-  <div class="cta-section">
-    <div class="cta-box">
-      <h2>Test Your Relevance Quotient™ [RQ] for 2025 &amp; Tomorrow.</h2>
-      <button>TEST YOUR RELEVANCE QUOTIENT™ [RQ]</button>
-    </div>
+  <!-- Chat Button at the bottom right -->
+  <div id="chat-button" class="chat-button">
+      <!-- SVG Chat Icon and X mark -->
+      <svg id="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H8.83L4 22.17V6c0-1.1.9-2 2-2zm0 14.34L7.17 17H20V6H4v12.34zM10 13h4v-2h-4v2zM10 9h4V7h-4v2z"/>
+      </svg>
+      <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
   </div>
 
-  <!-- HeyGen Embed Script (replaces chat widget) -->
+  <!-- Chat Container -->
+  <div id="chat-container" class="chat-container">
+      <!-- Chat Header -->
+      <div class="chat-header">
+          مساعد خدمة العملاء
+      </div>
+    
+      <!-- Chat Body -->
+      <div id="chat-body" class="chat-body flex flex-col space-y-2">
+          <!-- Initial bot message will be added dynamically by JS -->
+      </div>
+    
+      <!-- Chat Input -->
+      <div class="message-input-container">
+          <input type="text" id="user-input" class="message-input" placeholder="اكتب رسالتك..." autofocus>
+          <button id="send-button" class="send-button mr-2">إرسال</button>
+      </div>
+  </div>
+
   <script>
-  !function(window){
-    const host="https://labs.heygen.com",
-    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJKdW5lX0hSX3B1YmxpYyIsInByZXZpZXdJ%0D%0AbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzc0NDQ3YTI3ODU5YTQ1NmM5%0D%0ANTVlMDFmMjFlZjE4MjE2XzQ1NjIwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVkUmVtb3ZlQmFj%0D%0Aa2dyb3VuZCI6ZmFsc2UsImtub3dsZWRnZUJhc2VJZCI6IjQ4ZDNmYTc2MWUyNDQ5Yzk4YmM2NmE1%0D%0AYWU3YjQ4Y2IxIiwidXNlcm5hbWUiOiI3ZGFlZWJhNDhmZWI0NTM5YmE0Yzk0ZGExYTQ2YTYwOSJ9&inIFrame=1",
-    clientWidth=document.body.clientWidth,
-    wrapDiv=document.createElement("div");
-    wrapDiv.id="heygen-streaming-embed";
-    const container=document.createElement("div");
-    container.id="heygen-streaming-container";
-    const stylesheet=document.createElement("style");
-    stylesheet.innerHTML=`
-    #heygen-streaming-embed {
-      z-index: 9999;
-      position: fixed;
-      left: 40px;
-      bottom: 40px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.12);
-      transition: all linear 0.1s;
-      overflow: hidden;
-      opacity: 0;
-      visibility: hidden;
-    }
-    #heygen-streaming-embed.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    #heygen-streaming-embed.expand {
-      ${clientWidth<540?"height: 266px; width: 96%; left: 50%; transform: translateX(-50%);":"height: 366px; width: calc(366px * 16 / 9);"}
-      border: 0;
-      border-radius: 8px;
-    }
-    #heygen-streaming-container {
-      width: 100%;
-      height: 100%;
-    }
-    #heygen-streaming-container iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-    `;
-    const iframe=document.createElement("iframe");
-    iframe.allowFullscreen=!1;
-    iframe.title="Streaming Embed";
-    iframe.role="dialog";
-    iframe.allow="microphone";
-    iframe.src=url;
-    let visible=!1,initial=!1;
-    window.addEventListener("message",(e=>{
-      e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
-        "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
-        "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
-        "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
-      )
-    }));
-    container.appendChild(iframe);
-    wrapDiv.appendChild(stylesheet);
-    wrapDiv.appendChild(container);
-    document.body.appendChild(wrapDiv);
-  }(globalThis);
-  </script>
+      // Get DOM elements
+      const chatBody = document.getElementById('chat-body');
+      const userInput = document.getElementById('user-input');
+      const sendButton = document.getElementById('send-button');
+      const chatButton = document.getElementById('chat-button');
+      const chatContainer = document.getElementById('chat-container');
+      const chatIcon = document.getElementById('chat-icon');
+      const closeIcon = document.getElementById('close-icon');
+
+      // State variable to track if the chat has been opened before
+      let chatOpened = false;
+      let chatHistory = [];
+
+      // Gemini API configuration
+      const apiKey = "AIzaSyBHofAt2IF3ou4pVmXCIMjuaF2AgL4_xYc"; // Leave this empty, Canvas will handle it.
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+      // --- System Instructions & Website Content ---
+      const systemInstruction = `
+          أنت مساعد خدمة عملاء ذكي لشركة "والت القابضة". مهمتك هي مساعدة العملاء وتقديم معلومات دقيقة.
+        
+          **تعليماتك:**
+          1.  أجب على الأسئلة المتعلقة بالشركة، ورؤيتها، ومشاريعها، وسياساتها استنادًا فقط إلى المعلومات المتاحة في FAQs.
+          2.  **اجعل إجاباتك مختصرة ومباشرة قدر الإمكان.**
+          3.  **تجنب الشرح المطول. اجب على السؤال بشكل فعال ومباشر.**
+          4.  استخدم لغة ودودة ومحترفة.
+          5.  **مهم جداً: إذا لم تكن الإجابة موجودة في المعلومات المتاحة، يجب أن تعتذر بأدب وتوضح أنك لا تستطيع الإجابة على هذا السؤال. لا تختلق معلومات ولا تجب على أسئلة خارج نطاق المعلومات المقدمة.**
+          6.  أنت مبرمج فقط لتقديم خدمة العملاء، لا تجب على أسئلة شخصية أو خارج نطاق العمل.
+      `;
+    
+      const websiteContent = `
+          ## نموذج الأسئلة الشائعة (FAQs) لشركة والت القابضة (100 سؤال وجواب)
+
+          **1. عن شركة والت القابضة**
+          س1: ما هي شركة والت القابضة؟
+          ج1: والت القابضة هي مجموعة قابضة رائدة في مجال المشاريع الرقمية بالمملكة العربية السعودية، متخصصة في بناء وتطوير منصات التجارة الإلكترونية وخدمات نمط الحياة.
+
+          س2: ما هي رؤية ورسالة الشركة؟
+          ج2: رؤيتنا هي أن نصبح أكبر محرك للتحول الرقمي في المنطقة، ورسالتنا هي بناء منظومة رقمية متكاملة تدعم الابتكار وتلبي احتياجات العملاء المتغيرة.
+
+          س3: ما هو نموذج عملكم؟
+          ج3: نعمل كمجموعة قابضة تمتلك وتدير مجموعة من الشركات والعلامات التجارية الرقمية، ونقدم الدعم الاستراتيجي والتشغيلي لها.
+
+          س4: ما هي المجالات التي تركزون عليها؟
+          ج4: نركز على قطاعات التجارة الإلكترونية، خدمات نمط الحياة، والحلول التقنية المبتكرة المعتمدة على تطبيقات الهاتف المحمول والتقنيات السحابية.
+
+          س5: أين يقع مقر الشركة؟
+          ج5: يقع مقر الشركة الرئيسي في الرياض، بالمملكة العربية السعودية.
+
+          س6: هل والت القابضة شركة مساهمة عامة؟
+          ج6: حالياً، الشركة هي مجموعة خاصة.
+
+          س7: ما هي قيم الشركة الأساسية؟
+          ج7: الابتكار، والسرعة، والتركيز على العميل، والنزاهة، والتعاون.
+
+          س8: هل تعملون فقط في المملكة العربية السعودية؟
+          ج8: نركز بشكل أساسي على السوق السعودية، ولكن لدينا خطط للتوسع في المنطقة.
+
+          س9: كيف تساهم الشركة في الاقتصاد الرقمي السعودي؟
+          ج9: نساهم في الاقتصاد الرقمي من خلال بناء منصات متطورة، ودعم رواد الأعمال، وخلق فرص عمل جديدة في القطاع التقني.
+
+          س10: ما هي استراتيجيتكم في بناء المحفظة الاستثمارية؟
+          ج10: نستثمر في المشاريع الرقمية ذات الإمكانات العالية للنمو، سواء من خلال تأسيسها أو الاستحواذ عليها أو دعمها كشركات ناشئة.
+
+          **2. عن مشاريعكم الرقمية والعلامات التجارية**
+          س11: هل لديكم قائمة بالمشاريع التي تملكونها؟
+          ج11: نحن نمتلك وندير مجموعة من العلامات التجارية الرقمية الرائدة في مجالات مختلفة. يمكن الاطلاع على أبرزها عبر الموقع الإلكتروني.
+
+          س12: ما هو نوع منصات التجارة الإلكترونية التي تديرونها؟
+          ج12: ندير منصات تجارة إلكترونية متخصصة في قطاعات متنوعة، مثل الأجهزة الإلكترونية، والمنتجات المنزلية، والسلع الفاخرة.
+
+          س13: هل لديكم تطبيقات مخصصة لخدمات نمط الحياة؟
+          ج13: نعم، لدينا تطبيقات مصممة لتحسين جودة الحياة، مثل تطبيقات التوصيل، والخدمات الشخصية، والترفيه.
+
+          س14: كيف تضمنون جودة الخدمات التي تقدمها شركاتكم التابعة؟
+          ج14: من خلال توفير الدعم التشغيلي والتقني المستمر، وتطبيق أعلى معايير الجودة في جميع أعمالنا.
+
+          س15: هل يمكنني أن أصبح شريكاً تجارياً مع إحدى منصاتكم؟
+          ج15: نعم، يمكن للتجار الراغبين في عرض منتجاتهم على منصاتنا التواصل معنا لمناقشة فرص الشراكة.
+
+          س16: كيف يتم دمج التقنيات السحابية في مشاريعكم؟
+          ج16: نعتمد على التقنيات السحابية لتحقيق مرونة أكبر، وسرعة في إطلاق الخدمات، وتقليل التكاليف التشغيلية.
+
+          س17: هل لديكم خدمة عملاء موحدة لجميع تطبيقاتكم؟
+          ج17: كل منصة أو تطبيق لديه فريق خدمة عملاء خاص به لضمان الدعم المتخصص.
+
+          س18: هل يمكن لعملائكم تقديم ملاحظات حول الخدمات؟
+          ج18: نعم، نشجع العملاء على تقديم ملاحظاتهم عبر قنوات التواصل المتاحة في كل تطبيق.
+
+          س19: هل تخططون لإطلاق مشاريع جديدة قريباً؟
+          ج19: نعمل باستمرار على تطوير مشاريع جديدة تلبي احتياجات السوق.
+
+          س20: كيف يتم اختيار المشاريع التي تستثمرون فيها؟
+          ج20: نختار المشاريع التي لديها نموذج عمل قوي، وفريق عمل مبتكر، وإمكانات نمو هائلة في السوق.
+
+          **3. للشركات الناشئة ورواد الأعمال**
+          س21: هل تقدمون دعماً للشركات الناشئة؟
+          ج21: نعم، ندعم الشركات الناشئة من خلال برامج حاضنات ومسرعات أعمال.
+
+          س22: ما هو برنامج "حاضنة الأعمال"؟
+          ج22: هو برنامج نقدم فيه الدعم المالي، والاستراتيجي، والإرشاد للشركات الناشئة في مراحلها المبكرة.
+
+          س23: ما هو برنامج "مسرعة الأعمال"؟
+          ج23: هو برنامج مكثف مصمم لمساعدة الشركات الناشئة الواعدة على تحقيق النمو السريع والتوسع في السوق.
+
+          س24: كيف يمكنني التقدم بطلب للمشاركة في برامجكم؟
+          ج24: يمكنك تقديم طلب عبر موقعنا الإلكتروني أو التواصل مع فريقنا المختص.
+
+          س25: ما هي معاييركم لاختيار الشركات الناشئة؟
+          ج25: نبحث عن الأفكار المبتكرة، ونموذج العمل القابل للتطوير، والفريق المؤسس القوي والمتحمس.
+
+          س26: هل تقدمون التمويل المباشر للشركات الناشئة؟
+          ج26: نعم، نقدم تمويلاً استثمارياً مقابل حصة في الشركة.
+
+          س27: هل لديكم مساحات عمل مشتركة (Co-working spaces)؟
+          ج27: نعم، نوفر مساحات عمل مشتركة للمشاريع التي نحتضنها لمساعدتها على تقليل التكاليف.
+
+          س28: ما هي أنواع الدعم غير المالي الذي تقدمونه؟
+          ج28: نقدم دعماً في مجالات التسويق، وتطوير المنتجات، والموارد البشرية، والعمليات.
+
+          س29: ما هي المدة الزمنية لبرامج مسرعة الأعمال؟
+          ج29: تختلف المدة الزمنية حسب البرنامج، وعادة ما تكون عدة أشهر.
+
+          س30: هل يمكن لشركات خارج المملكة التقديم لبرامجكم؟
+          ج30: نركز حالياً على الشركات التي لديها خطط للعمل في السوق السعودية.
+
+          **4. العلاقات التجارية والشركات**
+          س31: كيف يمكن لشركتي أن تصبح شريكاً لكم؟
+          ج31: يمكنك التواصل مع قسم تطوير الأعمال لدينا لتقديم شركتك ومناقشة فرص التعاون.
+
+          س32: هل تستحوذون على شركات قائمة؟
+          ج32: نعم، نحن نبحث عن فرص للاستحواذ على شركات رقمية قائمة لديها إمكانات نمو كبيرة.
+
+          س33: ما هي أنواع الشركات التي تهتمون بها؟
+          ج33: نهتم بالشركات التي تعمل في مجالات التجارة الإلكترونية، التقنية المالية (FinTech)، اللوجستيات، وخدمات نمط الحياة.
+
+          س34: هل يمكن أن نصبح مورداً لكم؟
+          ج34: نرحب بالتعاون مع الموردين الذين يقدمون خدمات أو منتجات عالية الجودة.
+
+          س35: هل لديكم استثمارات في شركات تقنية أخرى؟
+          ج35: نعم، نستثمر في مجموعة متنوعة من الشركات التقنية الواعدة.
+
+          س36: كيف يتم التواصل مع قسم الاستثمار لديكم؟
+          ج36: يمكنك إرسال خطة عملك إلى البريد الإلكتروني الخاص بقسم الاستثمار.
+
+          س37: هل يمكنكم دعم مشاريعنا من ناحية التمويل فقط؟
+          ج37: نحن نفضل تقديم الدعم الشامل (المالي والاستراتيجي) لضمان نجاح المشروع.
+
+          س38: هل تقدمون خدمات استشارية للشركات الأخرى؟
+          ج38: لا، تركيزنا هو على إدارة محفظتنا الاستثمارية.
+
+          س39: هل تقبلون عروضاً من الشركات الدولية؟
+          ج39: نعم، نرحب بالعروض من الشركات الدولية التي ترغب في التوسع في السوق السعودية.
+
+          س40: هل يمكننا حضور فعالياتكم الخاصة بالشركات الناشئة؟
+          ج40: نعلن عن الفعاليات المفتوحة للجمهور عبر قنواتنا الرسمية.
+
+          **5. المسار الوظيفي والموارد البشرية**
+          س41: هل لديكم فرص وظيفية شاغرة؟
+          ج41: نعلن عن الوظائف الشاغرة عبر موقعنا الإلكتروني ومنصات التوظيف.
+
+          س42: كيف يمكنني التقدم لوظيفة؟
+          ج42: يمكنك إرسال سيرتك الذاتية من خلال صفحة "وظائف" على موقعنا.
+
+          س43: ما هي بيئة العمل في والت القابضة؟
+          ج43: بيئة عملنا تتميز بالابتكار، والديناميكية، والعمل الجماعي.
+
+          س44: هل تقدمون برامج تدريب للطلاب والخريجين؟
+          ج44: نعم، لدينا برامج تدريب صيفية وبرامج للخريجين الجدد.
+
+          س45: ما هي ثقافة الشركة لديكم؟
+          ج45: ثقافة الشركة مبنية على تشجيع الإبداع، وتطوير المهارات، والمساهمة الفعالة.
+
+          س46: ما هي المهارات التي تبحثون عنها في الموظفين؟
+          ج46: نبحث عن الموظفين المتحمسين، الذين لديهم مهارات تقنية، وقدرة على حل المشكلات، والشغف بالعمل.
+
+          س47: هل يمكنني العمل عن بعد؟
+          ج47: نقدم خيارات عمل مرنة لبعض الوظائف.
+
+          س48: هل تقدمون حوافز ومزايا للموظفين؟
+          ج48: نعم، نقدم حوافز ومزايا تنافسية لموظفينا.
+
+          س49: ما هي فرص النمو الوظيفي في الشركة؟
+          ج49: نشجع موظفينا على التطور والتقدم في مساراتهم المهنية.
+
+          س50: هل تقدمون دورات تدريبية للموظفين؟
+          ج50: نعم، نوفر برامج تدريب مستمرة لتعزيز مهارات فريق العمل.
+
+          **6. المسؤولية الاجتماعية والاستدامة**
+          س51: ما هو دوركم في خدمة المجتمع؟
+          س51: نساهم في المجتمع من خلال دعم المشاريع التي تخدم قطاعات حيوية وتوفر حلولاً مبتكرة.
+
+          س52: هل لديكم برامج للمسؤولية الاجتماعية للشركات (CSR)؟
+          ج52: نعم، لدينا برامج ومبادرات تهدف إلى تحقيق أثر إيجابي في المجتمع.
+
+          س53: كيف تدعمون الابتكار في المجتمع؟
+          ج53: ندعم الابتكار من خلال برامجنا للحاضنات والمسرعات، والفعاليات التي ننظمها.
+
+          س54: هل لديكم شراكات مع جهات غير ربحية؟
+          ج54: نرحب بالتعاون مع الجهات غير الربحية التي تتوافق رؤيتها مع أهدافنا.
+
+          س55: هل تهتمون بالاستدامة البيئية؟
+          ج55: ندمج ممارسات الاستدامة في عملياتنا.
+
+          **7. أسئلة عامة أخرى**
+          س56: كيف يمكنني التواصل معكم؟
+          ج56: يمكنك التواصل معنا عبر نموذج الاتصال على الموقع الإلكتروني.
+
+          س57: ما هي قنوات التواصل الاجتماعي الخاصة بكم؟
+          ج57: يمكنك متابعة أخبارنا على (اذكر منصات التواصل).
+
+          س58: هل لديكم فعاليات أو مؤتمرات؟
+          ج58: نعلن عن جميع فعالياتنا عبر قنواتنا الرسمية.
+
+          س59: هل يمكنني طلب مقابلة مع مسؤول تنفيذي؟
+          ج59: يمكنك إرسال طلبك وسنقوم بالرد عليك.
+
+          س60: ما هي أحدث أخبار الشركة؟
+          ج60: يمكنك متابعة آخر أخبارنا عبر موقعنا الإلكتروني.
+
+          س61: هل يمكنني الاستثمار في الشركة؟
+          ج61: نحن شركة خاصة ولا يوجد طرح عام حالياً.
+
+          س62: هل تقبلون المقترحات لمشاريع جديدة؟
+          ج62: نعم، يمكنك تقديم مقترحاتك عبر قنواتنا المخصصة.
+
+          س63: ما هي ساعات عمل مكاتبكم؟
+          ج63: ساعات العمل الرسمية هي من الأحد إلى الخميس، من الساعة 9 صباحاً إلى 5 مساءً.
+
+          س64: هل لديكم فروع أخرى؟
+          ج64: حالياً، المقر الرئيسي في الرياض.
+
+          س65: هل يمكنني حجز موعد لزيارتكم؟
+          ج65: يجب تحديد موعد مسبق للزيارة.
+
+          س66: هل يمكنني الاشتراك في قائمتكم البريدية؟
+          ج66: نعم، يمكنك الاشتراك في القائمة البريدية لتلقي آخر أخبارنا.
+
+          س67: هل لديكم خطة للاستحواذ على شركات عالمية؟
+          ج67: نركز حالياً على السوق المحلية والإقليمية.
+
+          س68: هل يمكننا استخدام شعاركم في موادنا الإعلامية؟
+          ج68: يجب الحصول على موافقة مسبقة من فريق العلاقات العامة.
+
+          س69: هل تقومون برعاية فعاليات؟
+          ج69: نعم، نقدم الرعاية لفعاليات تتوافق مع أهدافنا.
+
+          س70: هل لديكم أي جوائز أو شهادات؟
+          ج70: نحن نسعى دائماً لتحقيق التميز في عملنا.
+
+          س71: هل يمكننا الحصول على تقاريركم السنوية؟
+          ج71: يتم نشر تقاريرنا للجمهور عبر موقعنا.
+
+          س72: هل يمكنني تقديم عرض لخدماتكم؟
+          ج72: نعم، يمكنك تقديم عرض لخدماتك عبر البريد الإلكتروني.
+
+          س73: هل يمكنني التواصل مع فريق التسويق لديكم؟
+          ج73: يمكنك إرسال استفسارك عبر نموذج الاتصال.
+
+          س74: هل لديكم برنامج إحالة؟
+          ج74: ليس لدينا برنامج إحالة للمشاريع.
+
+          س75: هل يمكنني استخدام اسمكم في مقال صحفي؟
+          ج75: يجب الحصول على موافقة من فريق العلاقات العامة.
+
+          س76: ما هي أحدث التقنيات التي تستخدمونها؟
+          ج76: نستخدم أحدث التقنيات في مجال الحوسبة السحابية، والذكاء الاصطناعي، وتحليل البيانات.
+
+          س77: هل لديكم شراكات مع جامعات؟
+          ج77: نعم، لدينا شراكات مع جامعات لتدريب وتوظيف الطلاب.
+
+          س78: هل يمكنني تقديم مشروع مشترك معكم؟
+          ج78: نرحب بالمشاريع المشتركة التي تخدم أهدافنا الاستراتيجية.
+
+          س79: هل لديكم سياسة خصوصية؟
+          ج79: نعم، يمكنك الاطلاع على سياسة الخصوصية على موقعنا.
+
+          س80: هل تحافظون على سرية المشاريع المقدمة إليكم؟
+          ج80: نضمن سرية جميع الأفكار المقدمة إلينا.
+
+          س81: هل يمكنني الحصول على معلومات عن مشاريعكم من مصادر خارجية؟
+          ج81: يمكنك زيارة المواقع الإلكترونية لكل شركة تابعة لنا.
+
+          س82: هل لديكم تطبيق خاص بالشركة القابضة؟
+          ج82: لا، تركيزنا على تطبيقات الشركات التابعة.
+
+          س83: هل يمكنني أن أصبح مستشاراً لديكم؟
+          ج83: يمكنك تقديم طلبك وسوف يتم مراجعته.
+
+          س84: هل تقبلون عروضاً من المطورين؟
+          ج84: نعم، يمكنك تقديم عروض لخدمات التطوير.
+
+          س85: هل تدعمون مشاريع الذكاء الاصطناعي؟
+          ج85: نعم، لدينا اهتمام كبير بمشاريع الذكاء الاصطناعي.
+
+          س86: هل يمكنني إعادة بيع منتجاتكم؟
+          ج86: يجب الحصول على موافقة من كل شركة تابعة.
+
+          س87: هل لديكم مركز تدريب؟
+          ج87: لدينا برامج تدريب داخلية لموظفينا.
+
+          س88: هل يمكنني طلب معلومات عن تقاريركم المالية؟
+          ج88: التقارير المالية للشركة الخاصة ليست متاحة للجمهور.
+
+          س89: هل يمكنني زيارة أحد مشاريعكم؟
+          ج89: يعتمد ذلك على سياسة كل شركة تابعة.
+
+          س90: هل لديكم شراكات مع الجهات الحكومية؟
+          ج90: نعمل على بناء علاقات مع الجهات الحكومية لدعم القطاع الرقمي.
+
+          س91: هل تقدمون دعماً فنياً لمشاريعكم؟
+          ج91: نعم، نقدم دعماً فنياً كاملاً لجميع مشاريعنا.
+
+          س92: هل يمكنني الحصول على قائمة بالمستشارين لديكم؟
+          ج92: هذه المعلومات ليست متاحة للجمهور.
+
+          س93: هل لديكم برنامج مكافآت للموظفين؟
+          ج93: نعم، نقدم برامج مكافآت لموظفينا.
+
+          س94: هل يمكنني الحصول على نسخة من شروط الخدمة؟
+          ج94: يمكنك الاطلاع عليها على موقعنا.
+
+          س95: هل يمكنني تقديم اقتراح لمشروع جديد؟
+          ج95: نعم، نرحب بالأفكار المبتكرة.
+
+          س96: هل لديكم برنامج إحالة للعملاء؟
+          ج96: بعض مشاريعنا لديها برامج إحالة خاصة بها.
+
+          س97: هل يمكنني التواصل مع المدير التنفيذي؟
+          ج97: يمكنك إرسال استفسارك إلى فريق الإدارة.
+
+          س98: هل لديكم سياسة لتوظيف الخبراء الأجانب؟
+          ج98: نعم، لدينا سياسة واضحة لتوظيف المواهب من جميع أنحاء العالم.
+
+          س99: هل يمكنني الحصول على معلومات عن خططكم المستقبلية؟
+          ج99: نعلن عن خططنا المستقبلية في الوقت المناسب.
+
+          س100: هل يمكنني إرسال سيرة ذاتية بشكل عام؟
+          ج100: نعم، يمكنك إرسال سيرتك الذاتية وسوف نقوم بالرجوع إليها في حال توفر وظيفة مناسبة.
+        
+          ## أسئلة عامة حول التطبيقات
+          س101: ما هي أنواع التطبيقات التي تقدمها شركة والت القابضة؟
+          ج101: تقدم الشركة مجموعة واسعة من التطبيقات في مجالات مختلفة مثل الخدمات المنزلية، والطعام، والجمال، والعقارات، والخدمات حسب الطلب.
+          س102: هل تطبيقات شركة والت القابضة متاحة على الأجهزة الذكية؟
+          ج102: نعم، جميع تطبيقاتنا متاحة للتحميل على أجهزة iOS و Android.
+          س103: كيف يمكنني العثور على تطبيقاتكم؟
+          ج103: يمكنك زيارة موقعنا الإلكتروني أو البحث عن "wallet.com.sa" في متاجر التطبيقات.
+          س104: هل يمكنني استخدام تطبيقاتكم في أي مكان؟
+          ج104: تطبيقاتنا مصممة خصيصًا لتلبية احتياجات السوق السعودي، وقد تكون متاحة في مناطق أخرى حسب طبيعة التطبيق.
+          س105: هل جميع تطبيقاتكم مجانية للتحميل؟
+          ج105: نعم، معظم تطبيقاتنا مجانية للتحميل، ولكن قد تكون بعض الخدمات داخلها مدفوعة.
+          س106: هل البيانات الشخصية آمنة في تطبيقاتكم؟
+          ج106: نعم، نلتزم بأعلى معايير الأمان والخصوصية في جميع تطبيقاتنا.
+          س107: كيف يمكنني التواصل مع دعم فني لتطبيق معين؟
+          ج107: كل تطبيق من تطبيقاتنا لديه فريق دعم خاص به، ويمكنك التواصل معهم عبر قنوات الدعم المتاحة داخل التطبيق.
+
+          ## تطبيقات الخدمات حسب الطلب
+          س108: ما هو تطبيق **ميري**؟
+          ج108: تطبيق ميري يربط الأمهات بالمربيات ومقدمي الرعاية الموثوق بهم للأطفال.
+          س109: ما هو تطبيق **زينة**؟
+          ج109: تطبيق زينة هو تطبيق للخدمات المنزلية حسب الطلب، مثل خدمات التنظيف.
+          س110: ما هو تطبيق **تشطيب**؟
+          ج110: تطبيق تشطيب متخصص في تشطيبات ديكورات المنازل والمكاتب من خلال متخصصين موثوقين.
+          س111: ما هو تطبيق **مقاس**؟
+          ج111: تطبيق مقاس متخصص في تقديم خدمات الحلاقة في المنزل.
+          س112: ما هو تطبيق **بيلاي**؟
+          ج112: تطبيق بيلاي يقدم خدمات التجميل والعناية بالبشرة حسب الطلب.
+          س113: ما هو تطبيق **مساج**؟
+          ج113: تطبيق مساج متخصص في جلسات المساج الاحترافية في المنزل.
+
+          ## تطبيقات الطعام والمشروبات
+          س114: ما هو تطبيق **الشيف السعودي**؟
+          ج114: تطبيق الشيف السعودي متخصص في تقديم الأطعمة السعودية.
+          س115: ما هو تطبيق **واغيو برجر**؟
+          ج115: تطبيق واغيو برجر متخصص في برجر الواغيو.
+          س116: ما هو تطبيق **لوجي مات**؟
+          ج116: تطبيق لوجي مات متخصص في صناعة الحلويات.
+          س117: ما هو تطبيق **كوفي**؟
+          ج117: تطبيق كوفي يقدم خدمات توصيل القهوة والمشروبات الساخنة.
+          س118: ما هو تطبيق **شيفت**؟
+          ج118: تطبيق شيفت متخصص في تقديم أصناف متنوعة من الطعام الصحي والوجبات الخفيفة.
+          س119: ما هو تطبيق **بيورج**؟
+          ج119: تطبيق بيورج متخصص في تقديم العصائر الطازجة والوجبات النباتية.
+
+          ## تطبيقات أسلوب الحياة والتجارة الإلكترونية
+          س120: ما هو تطبيق **بوتيك عود**؟
+          ج120: تطبيق بوتيك عود متخصص في توفير أنواع مختلفة من عطور العود.
+          س121: ما هو تطبيق **حجاب سوت**؟
+          ج121: تطبيق حجاب سوت يقدم أنواعًا مختلفة من ملابس الحجاب.
+          س122: ما هو تطبيق **فريمز**؟
+          ج122: تطبيق فريمز متخصص في تحويل الذكريات الرقمية إلى إطارات صور.
+          س123: ما هو تطبيق **نباتات**؟
+          ج123: تطبيق نباتات يعرض تشكيلة من النباتات الداخلية والخارجية مع خدمة التوصيل.
+          س124: ما هو تطبيق **هوم ستاش**؟
+          ج124: تطبيق هوم ستاش متخصص في بيع الأجهزة المنزلية الصغيرة والإكسسوارات.
+          س125: ما هو تطبيق **شياطين**؟
+          ج125: تطبيق شياطين يقدم تشكيلة من الملابس العصرية والأحذية الرياضية.
+
+          ## تطبيقات أخرى متنوعة
+          س126: ما هو تطبيق **بايكرز**؟
+          ج126: تطبيق بايكرز يقدم خدمات إصلاح وصيانة الدراجات الهوائية والنارية في الموقع.
+          س127: ما هو تطبيق **لايفير**؟
+          ج127: تطبيق لايفير متخصص في تقديم خدمات الديكور الداخلي والتصميم المعماري.
+          س128: ما هو تطبيق **ماكس**؟
+          ج128: تطبيق ماكس يوفر مجموعة من خدمات صيانة السيارات المتنقلة.
+          س129: ما هو تطبيق **ريزيدنس**؟
+          ج129: تطبيق ريزيدنس يوفر شققًا للإيجار أو البيع بأسعار جيدة.
+          س130: ما هو تطبيق **اوبتكس**؟
+          ج130: تطبيق اوبتكس يقدم خدمات فحص النظر وتوفير النظارات.
+          س131: ما هو تطبيق **لايف**؟
+          ج131: تطبيق لايف متخصص في بيع منتجات العناية الشخصية ومستحضرات التجميل.
+          س132: ما هو تطبيق **تيسير**؟
+          ج132: تطبيق تيسير يقدم خدمات الدفع الإلكتروني والتسديد الفوري للفواتير.
+          س133: ما هو تطبيق **شاين**؟
+          ج133: تطبيق شاين يقدم خدمات تنظيف السيارات في الموقع.
+          س134: ما هو تطبيق **مستشفيات النصر**؟
+          ج134: تطبيق مستشفيات النصر يقدم خدمات الحجز الطبي والاستشارات عن بعد.
+
+        
+        
+      `;
+
+      // Function to add a message to the chat body
+      function addMessage(text, sender) {
+          const messageContainer = document.createElement('div');
+          messageContainer.classList.add('flex');
+        
+          const messageBubble = document.createElement('div');
+          messageBubble.classList.add('message-bubble');
+        
+          if (sender === 'user') {
+              messageContainer.classList.add('justify-start');
+              messageBubble.classList.add('user-message');
+          } else {
+              messageContainer.classList.add('justify-end');
+              messageBubble.classList.add('bot-message');
+              // Remove asterisks from the text
+              text = text.replace(/\*\*(.*?)\*\*/g, '$1');
+          }
+        
+          messageBubble.innerText = text;
+          messageContainer.appendChild(messageBubble);
+          chatBody.appendChild(messageContainer);
+        
+          chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      // Function to show a typing indicator
+      function showTypingIndicator() {
+          const typingIndicator = document.createElement('div');
+          typingIndicator.id = 'typing-indicator';
+          typingIndicator.classList.add('typing-indicator', 'bot-message');
+          typingIndicator.innerHTML = `
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+          `;
+          chatBody.appendChild(typingIndicator);
+          chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      // Function to remove the typing indicator
+      function removeTypingIndicator() {
+          const typingIndicator = document.getElementById('typing-indicator');
+          if (typingIndicator) {
+              typingIndicator.remove();
+          }
+      }
+
+      // Function to get response from Gemini API with exponential backoff
+      async function getGeminiResponse(userPrompt, retries = 3) {
+          showTypingIndicator();
+        
+          // Build the contents array for the API request
+          const contents = [
+              { role: "user", parts: [{ text: systemInstruction + "\n\nمعلومات إضافية من الموقع:\n" + websiteContent }] },
+          ];
+        
+          // Add existing chat history
+          chatHistory.forEach(message => contents.push(message));
+        
+          // Add the new user message
+          contents.push({ role: "user", parts: [{ text: userPrompt }] });
+
+          const payload = { contents: contents };
+
+          for (let i = 0; i < retries; i++) {
+              try {
+                  const response = await fetch(apiUrl, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload)
+                  });
+                
+                  if (!response.ok) {
+                      if (response.status === 429 && i < retries - 1) {
+                          const delay = Math.pow(2, i) * 1000;
+                          console.warn(`API rate limit exceeded. Retrying in ${delay}ms...`);
+                          await new Promise(res => setTimeout(res, delay));
+                          continue;
+                      } else {
+                          throw new Error(`API request failed with status: ${response.status}`);
+                      }
+                  }
+
+                  const result = await response.json();
+                  removeTypingIndicator();
+                  if (result.candidates && result.candidates.length > 0 &&
+                      result.candidates[0].content && result.candidates[0].content.parts &&
+                      result.candidates[0].content.parts.length > 0) {
+                      const botResponse = result.candidates[0].content.parts[0].text;
+                      // Add the bot's response to the history for future turns
+                      chatHistory.push({ role: "user", parts: [{ text: userPrompt }] });
+                      chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
+                      return botResponse;
+                  } else {
+                      return "عذرًا، لم أتمكن من إنشاء استجابة. يرجى المحاولة مرة أخرى.";
+                  }
+              } catch (error) {
+                  console.error("Fetch error:", error);
+                  if (i < retries - 1) {
+                      const delay = Math.pow(2, i) * 1000;
+                      console.warn(`Request failed. Retrying in ${delay}ms...`);
+                      await new Promise(res => setTimeout(res, delay));
+                  } else {
+                      removeTypingIndicator();
+                      return "لا يمكنني الاتصال بالخدمة. يرجى المحاولة لاحقًا.";
+                  }
+              }
+          }
+      }
+
+      // Event handler for sending a message
+      async function sendMessage() {
+          const userPrompt = userInput.value.trim();
+          if (userPrompt === '') return;
+
+          addMessage(userPrompt, 'user');
+          userInput.value = '';
+
+          const botResponse = await getGeminiResponse(userPrompt);
+          addMessage(botResponse, 'bot');
+      }
+
+      // Event listener for toggling the chat window and button icon
+      chatButton.addEventListener('click', () => {
+          const isOpen = chatContainer.classList.toggle('open');
+          chatButton.classList.toggle('open', isOpen);
+          chatIcon.style.display = isOpen ? 'none' : 'block';
+          closeIcon.style.display = isOpen ? 'block' : 'none';
+
+          if (isOpen && !chatOpened) {
+              // Add the initial greeting message when the chat is opened for the first time
+              addMessage("أهلاً بك! أنا مساعد خدمة العملاء من شركة والت القابضة. كيف يمكنني مساعدتك اليوم؟", "bot");
+              chatOpened = true;
+          }
+      });
+
+      // Event listeners for send button and Enter key
+      sendButton.addEventListener('click', sendMessage);
+      userInput.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+              sendMessage();
+          }
+      });
+      // Footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Simple chat drawer toggling
+      const openBtn = document.getElementById('chat-toggle');
+      const drawer = document.getElementById('chat-drawer');
+      const closeBtn = document.getElementById('chat-close');
+      openBtn.addEventListener('click', () => drawer.classList.remove('hidden'));
+      closeBtn.addEventListener('click', () => drawer.classList.add('hidden'));
+      drawer.addEventListener('click', (e) => { if (e.target === drawer) drawer.classList.add('hidden'); });
+
+      // Mock send
+      function sendMsg() {
+        const input = document.getElementById('chat-input');
+        if (!input.value.trim()) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'flex justify-start';
+        wrap.innerHTML = '<div class="card px-3 py-2 text-sm">' + input.value.replace(/</g,'&lt;') + '</div>';
+        drawer.querySelector('.grow').appendChild(wrap);
+        input.value = '';
+        drawer.querySelector('.grow').scrollTop = drawer.querySelector('.grow').scrollHeight;
+      }
+
+      // === Replace this with your real chat widget/embed if needed ===
+      // Example (HeyGen / custom bot) goes here in place of the simple drawer.
+</script>
+
 </body>
 </html>
-
