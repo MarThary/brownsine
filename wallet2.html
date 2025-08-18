@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wallet • المنصّة الرقمية</title>
   <meta name="description" content="منصّة رقمية حديثة لتشغيل العلامات والخدمات عبر قنوات متعددة." />
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -24,7 +23,6 @@
     .footer-link{color:#123; opacity:.8}
     .footer-link:hover{opacity:1}
   </style>
-  <!-- Chat Widget Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     .chat-container {
@@ -181,12 +179,10 @@
   </style>
 </head>
 <body>
-  <!-- Top Bar -->
   <header class="sticky top-0 z-50">
     <div class="glass border-b">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <a href="#" class="flex items-center gap-2">
-          <!-- Simple placeholder logo -->
           <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[var(--brand)] text-white font-black">W</span>
           <span class="text-xl font-extrabold">Wallet</span>
         </a>
@@ -204,7 +200,6 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="relative overflow-hidden">
     <div class="absolute -top-24 -end-24 w-[420px] h-[420px] rounded-full bg-emerald-200/40 blur-3xl"></div>
     <div class="absolute -bottom-24 -start-24 w-[320px] h-[320px] rounded-full bg-emerald-300/30 blur-3xl"></div>
@@ -234,7 +229,6 @@
           </div>
         </div>
 
-        <!-- Hero visual (placeholder) -->
         <div class="relative">
           <div class="card p-6 aspect-[4/3] flex items-center justify-center">
             <svg viewBox="0 0 600 400" class="w-full h-full">
@@ -266,7 +260,6 @@
     </div>
   </section>
 
-  <!-- Stats -->
   <section class="section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -290,7 +283,6 @@
     </div>
   </section>
 
-  <!-- About -->
   <section id="about" class="section">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-2 gap-8 items-start">
@@ -322,12 +314,10 @@
     </div>
   </section>
 
-  <!-- Verticals -->
   <section id="verticals" class="section bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-3xl font-black mb-8">قطاعات التجربة</h2>
       <div class="grid md:grid-cols-3 gap-6">
-        <!-- Reusable card -->
         <div class="card p-6">
           <h3 class="font-bold text-lg">الأطعمة والمشروبات</h3>
           <p class="text-[var(--muted)] mt-2">إدارة الطلبات، الولاء، وقنوات التوصيل.</p>
@@ -356,7 +346,6 @@
     </div>
   </section>
 
-  <!-- Partners -->
   <section id="partners" class="section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-6">
@@ -364,7 +353,6 @@
         <a href="#" class="text-sm font-semibold hover:text-[var(--brand)]">المزيد</a>
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-        <!-- Logo placeholders -->
         <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 1</span></div>
         <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 2</span></div>
         <div class="card p-4 flex items-center justify-center aspect-[3/2]"><span class="opacity-60">Logo 3</span></div>
@@ -375,7 +363,6 @@
     </div>
   </section>
 
-  <!-- Apps -->
   <section id="apps" class="section bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-6">
@@ -383,7 +370,6 @@
         <a href="#" class="text-sm font-semibold hover:text-[var(--brand)]">المزيد</a>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- App card -->
         <article class="card p-5">
           <div class="flex items-center justify-between">
             <h3 class="font-bold">Brand App 1</h3>
@@ -423,7 +409,6 @@
     </div>
   </section>
 
-  <!-- Download -->
   <section id="download" class="section">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <h2 class="text-3xl font-black">حمّل تطبيق Wallet الآن</h2>
@@ -435,7 +420,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="bg-white border-t">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div class="grid md:grid-cols-4 gap-8">
@@ -480,9 +464,7 @@
     </div>
   </footer>
 
-  <!-- Chat Button at the bottom right -->
   <div id="chat-button" class="chat-button">
-      <!-- SVG Chat Icon and X mark -->
       <svg id="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H8.83L4 22.17V6c0-1.1.9-2 2-2zm0 14.34L7.17 17H20V6H4v12.34zM10 13h4v-2h-4v2zM10 9h4V7h-4v2z"/>
       </svg>
@@ -491,19 +473,14 @@
       </svg>
   </div>
 
-  <!-- Chat Container -->
   <div id="chat-container" class="chat-container">
-      <!-- Chat Header -->
       <div class="chat-header">
           مساعد خدمة العملاء
       </div>
     
-      <!-- Chat Body -->
       <div id="chat-body" class="chat-body flex flex-col space-y-2">
-          <!-- Initial bot message will be added dynamically by JS -->
-      </div>
+          </div>
     
-      <!-- Chat Input -->
       <div class="message-input-container">
           <input type="text" id="user-input" class="message-input" placeholder="اكتب رسالتك..." autofocus>
           <button id="send-button" class="send-button mr-2">إرسال</button>
@@ -530,7 +507,7 @@
 
       // --- System Instructions & Website Content ---
       const systemInstruction = `
-          أنت مساعد خدمة عملاء ذكي لشركة "والت القابضة". مهمتك هي مساعدة العملاء وتقديم معلومات دقيقة.
+          أنت مساعد خدمة عملاء ذكي لشركة "ولت القابضة". مهمتك هي مساعدة العملاء وتقديم معلومات دقيقة.
         
           **تعليماتك:**
           1.  أجب على الأسئلة المتعلقة بالشركة، ورؤيتها، ومشاريعها، وسياساتها استنادًا فقط إلى المعلومات المتاحة في FAQs.
@@ -542,11 +519,11 @@
       `;
     
       const websiteContent = `
-          ## نموذج الأسئلة الشائعة (FAQs) لشركة والت القابضة (100 سؤال وجواب)
+          ## نموذج الأسئلة الشائعة (FAQs) لشركة ولت القابضة (100 سؤال وجواب)
 
-          **1. عن شركة والت القابضة**
-          س1: ما هي شركة والت القابضة؟
-          ج1: والت القابضة هي مجموعة قابضة رائدة في مجال المشاريع الرقمية بالمملكة العربية السعودية، متخصصة في بناء وتطوير منصات التجارة الإلكترونية وخدمات نمط الحياة.
+          **1. عن شركة ولت القابضة**
+          س1: ما هي شركة ولت القابضة؟
+          ج1: ولت القابضة هي مجموعة قابضة رائدة في مجال المشاريع الرقمية بالمملكة العربية السعودية، متخصصة في بناء وتطوير منصات التجارة الإلكترونية وخدمات نمط الحياة.
 
           س2: ما هي رؤية ورسالة الشركة؟
           ج2: رؤيتنا هي أن نصبح أكبر محرك للتحول الرقمي في المنطقة، ورسالتنا هي بناء منظومة رقمية متكاملة تدعم الابتكار وتلبي احتياجات العملاء المتغيرة.
@@ -560,7 +537,7 @@
           س5: أين يقع مقر الشركة؟
           ج5: يقع مقر الشركة الرئيسي في الرياض، بالمملكة العربية السعودية.
 
-          س6: هل والت القابضة شركة مساهمة عامة؟
+          س6: هل ولت القابضة شركة مساهمة عامة؟
           ج6: حالياً، الشركة هي مجموعة خاصة.
 
           س7: ما هي قيم الشركة الأساسية؟
@@ -675,7 +652,7 @@
           س42: كيف يمكنني التقدم لوظيفة؟
           ج42: يمكنك إرسال سيرتك الذاتية من خلال صفحة "وظائف" على موقعنا.
 
-          س43: ما هي بيئة العمل في والت القابضة؟
+          س43: ما هي بيئة العمل في ولت القابضة؟
           ج43: بيئة عملنا تتميز بالابتكار، والديناميكية، والعمل الجماعي.
 
           س44: هل تقدمون برامج تدريب للطلاب والخريجين؟
@@ -852,9 +829,9 @@
           ج100: نعم، يمكنك إرسال سيرتك الذاتية وسوف نقوم بالرجوع إليها في حال توفر وظيفة مناسبة.
         
           ## أسئلة عامة حول التطبيقات
-          س101: ما هي أنواع التطبيقات التي تقدمها شركة والت القابضة؟
+          س101: ما هي أنواع التطبيقات التي تقدمها شركة ولت القابضة؟
           ج101: تقدم الشركة مجموعة واسعة من التطبيقات في مجالات مختلفة مثل الخدمات المنزلية، والطعام، والجمال، والعقارات، والخدمات حسب الطلب.
-          س102: هل تطبيقات شركة والت القابضة متاحة على الأجهزة الذكية؟
+          س102: هل تطبيقات شركة ولت القابضة متاحة على الأجهزة الذكية؟
           ج102: نعم، جميع تطبيقاتنا متاحة للتحميل على أجهزة iOS و Android.
           س103: كيف يمكنني العثور على تطبيقاتكم؟
           ج103: يمكنك زيارة موقعنا الإلكتروني أو البحث عن "wallet.com.sa" في متاجر التطبيقات.
@@ -928,18 +905,18 @@
           ج133: تطبيق شاين يقدم خدمات تنظيف السيارات في الموقع.
           س134: ما هو تطبيق **مستشفيات النصر**؟
           ج134: تطبيق مستشفيات النصر يقدم خدمات الحجز الطبي والاستشارات عن بعد.
-س135: كم عدد العلامات التجارية التي تملكها شركة والت القابضة؟
+س135: كم عدد العلامات التجارية التي تملكها شركة ولت القابضة؟
           ج135: أكثر من 100 علامة تجارية رقمية.
-	  س136: ما هي العلامات التجارية التابعة لشركة والت في فئة الخدمات المنزلية والخاصة؟
+	  س136: ما هي العلامات التجارية التابعة لشركة ولت في فئة الخدمات المنزلية والخاصة؟
 	  ج136: العلامات التجارية في هذه الفئة هي:
 	  ميري جليسة اطفال ، ناني ، نايل ، هاوس كيبنغ ، فوت مساج ، حمام مغربي ، تنظيف السيارات ، فكس كار ، فكس موبايل ، تركيب الاثاث ، تشطيب ، معلم خاص ، مساعد شخصي ، حجامه ، الدهانات ، الديكور الداخلي ، المطابخ ، بوتيك رخام ، خزائن ، سمارت هوم ، صيدلية ، مستشار الاسرة ، بوتيك عناية ، المحامي ،نطق وتخاطب .
-	  س137: ما هي العلامات التجارية التابعة لشركة والت في فئة الأطعمة والمشروبات؟
+	  س137: ما هي العلامات التجارية التابعة لشركة ولت في فئة الأطعمة والمشروبات؟
 	  ج137: العلامات التجارية في هذه الفئة هي:
 	  برقر واقيو , شاورما ، ايس كريم ، بيتزا شيف ، بوكس مشاوي ، بوكس معجنات ، كاترينق ، كروسونات ، فول ، لحوم ، لقيمات ، ترامسيو ، تمور ، خضار وفواكه ، خفايف ، سمبوسة ، سوشي ، سوفليه ، عصير ، جاباتي وكرك ، سينابون ، شوكولا ، محامص ، مشروبات الطاقة ، بخاري ومضغوط ، فطور ، غداء ، بوتيك عسل ، بوتيك شاي ، الشيف الاسيوي ، الشيف الايطالي ، الشيف المصري ، الشيف الهندي ، سكر
 	  
-س138: ما هي العلامات التجارية التابعة لشركة والت في فئة الخدمات العامة وأسلوب الحياة؟
+س138: ما هي العلامات التجارية التابعة لشركة ولت في فئة الخدمات العامة وأسلوب الحياة؟
 ج138: العلامات التجارية في هذه الفئة هي: باريستا , بارت تايم , بايكرز , بارتي , كابتن , غاز , فتنس , بت كير , ورق عنب , شاليهات , فكس موبايل , رنت كار , العاب للاطفال , تعليم القيادة , لغتي العربية , أسمر , وومن هوستل , زفاف , استوديو , سان سيباستيان , مكاتب - اوفيس
-س139: ما هي العلامات التجارية التابعة لشركة والت في فئة التجارة الإلكترونية والتسوق؟
+س139: ما هي العلامات التجارية التابعة لشركة ولت في فئة التجارة الإلكترونية والتسوق؟
 ج139: العلامات التجارية في هذه الفئة هي: بوتيك فساتين , بوتيك عود , فازات , يونيفورم , مستحضرات تجميل , مرشات , عبايات , متسوقة , بقالة , اكسسوارات , ابو خمسة , هوستس , مغشات , لانجري , توبي , جوري , مقص , عطور
       `;
 
@@ -1074,7 +1051,7 @@
 
           if (isOpen && !chatOpened) {
               // Add the initial greeting message when the chat is opened for the first time
-              addMessage("أهلاً بك! أنا مساعد خدمة العملاء من شركة والت القابضة. كيف يمكنني مساعدتك اليوم؟", "bot");
+              addMessage("أهلاً بك! أنا مساعد خدمة العملاء من شركة ولت القابضة. كيف يمكنني مساعدتك اليوم؟", "bot");
               chatOpened = true;
           }
       });
